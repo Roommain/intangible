@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <head>
+        <meta charset="UTF-8" />
+        <script>
+            var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') ||
+                CSS.supports('top: constant(a)'))
+            document.write(
+                '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
+                (coverSupport ? ', viewport-fit=cover' : '') + '" />')
+        </script>
+        <title>View</title>
+        <style>
+            * {
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            input[type="search"]::-webkit-search-cancel-button {
+                display: none;
+            }
+        </style>
+        <script>
+            var __wxConfig = {"debug":false,"appname":"哟呵呵音乐","entryPagePath":"pages/music/music.html","page":{"pages/music/music.html":{"window":{"navigationBarTitleText":"音乐馆","navigationBarBackgroundColor":"#b4282d","navigationBarTextStyle":"white","usingComponents":{"uni-grid":"/components/uni-grid/uni-grid","uni-grid-item":"/components/uni-grid-item/uni-grid-item"}}},"pages/classify/classify.html":{"window":{"navigationBarTitleText":"分类","navigationBarBackgroundColor":"#b4282d","navigationBarTextStyle":"white","usingComponents":{}}},"pages/user/user.html":{"window":{"navigationBarTitleText":"我的","navigationBarBackgroundColor":"#b4282d","navigationBarTextStyle":"white","usingComponents":{}}},"pages/search/search.html":{"window":{"navigationBarTitleText":"搜索","navigationBarBackgroundColor":"#b4282d","navigationBarTextStyle":"white","usingComponents":{}}},"pages/index/index.html":{"window":{"navigationBarTitleText":"第一个uniapp","navigationBarBackgroundColor":"#b4282d","navigationBarTextStyle":"white","usingComponents":{}}},"pages/singerSong/singerSong.html":{"window":{"navigationBarTitleText":"歌手详情","navigationBarBackgroundColor":"#b4282d","navigationBarTextStyle":"white","usingComponents":{"uni-segmented-control":"/components/uni-segmented-control/uni-segmented-control"}}}},"global":{"window":{"navigationBarTextStyle":"black","navigationBarTitleText":"uni-app","navigationBarBackgroundColor":"#F7F7F7","backgroundColor":"#F7F7F7"}},"tabBar":{"color":"#7A7E83","selectedColor":"#b4282d","backgroundColor":"#ffffff","borderStyle":"black","list":[{"pagePath":"pages/music/music.html","iconPath":"static/tab-bar/yinyue1.png","selectedIconPath":"static/tab-bar/yinyue.png","text":"音乐馆"},{"pagePath":"pages/classify/classify.html","iconPath":"static/tab-bar/icon1.png","selectedIconPath":"static/tab-bar/icon.png","text":"分类"},{"pagePath":"pages/search/search.html","iconPath":"static/tab-bar/sousuo1.png","selectedIconPath":"static/tab-bar/sousuo.png","text":"搜索"},{"pagePath":"pages/user/user.html","iconPath":"static/tab-bar/geren1.png","selectedIconPath":"static/tab-bar/geren.png","text":"个人"}],"position":"bottom","height":"50px","fontSize":"10px","iconWidth":"24px","spacing":"3px"},"networkTimeout":{"request":60000,"connectSocket":60000,"uploadFile":60000,"downloadFile":60000},"platform":"devtools","pages":["pages/music/music","pages/classify/classify","pages/user/user","pages/search/search","pages/index/index","pages/singerSong/singerSong"],"nvueCompiler":"uni-app","renderer":"auto","splashscreen":{"alwaysShowBeforeRender":false,"autoclose":true},"compilerVersion":"2.4.6","usingComponents":{}}
+        </script>
+        <script>
+            var __id__ = '';
+            window.__dispatchGenerateFunc__ = function(page) {
+                __id__ = page;
+                document.title = page;
+                // window.history.pushState('', '', page);
+                var wxss = page.replace('.html', '.wxss')
+                if (
+                    typeof __wxAppCode__ !== 'undefined' &&
+                    __wxAppCode__.hasOwnProperty(wxss)
+                ) {
+                    var setCssToHead = __wxAppCode__[wxss]
+                    typeof setCssToHead === 'function' && setCssToHead()
+                    document.dispatchEvent(new CustomEvent("generateFuncReady", {
+                        detail: {
+                            generateFunc: $gwx(page.replace('.html', '.wxml'))
+                        }
+                    }));
+                } else {
+                    plus.webview.currentWebview().setJsFile('_www/' + page.replace('.html', '.js'));
+                }
+            };
+        </script>
+        <script src="__uniappes6.js"></script>
+        <script src="uniapp://ready"></script>
+    </head>
+
+    <body>
+        <div></div>
+    </body>
+
+</html>

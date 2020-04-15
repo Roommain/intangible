@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "音乐馆",
+  "navigationBarBackgroundColor": "#b4282d",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "uni-grid": "/components/uni-grid/uni-grid",
+    "uni-grid-item": "/components/uni-grid-item/uni-grid-item"
+  }
+}

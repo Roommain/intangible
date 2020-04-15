@@ -1,0 +1,61 @@
+{
+  "pages": [
+    "pages/music/music",
+    "pages/classify/classify",
+    "pages/user/user",
+    "pages/search/search",
+    "pages/index/index",
+    "pages/singerSong/singerSong"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F7F7F7",
+    "backgroundColor": "#F7F7F7"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#b4282d",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "height": "50px",
+    "fontSize": "10px",
+    "iconWidth": "24px",
+    "spacing": "3px",
+    "list": [
+      {
+        "pagePath": "pages/music/music",
+        "iconPath": "static/tab-bar/yinyue1.png",
+        "selectedIconPath": "static/tab-bar/yinyue.png",
+        "text": "音乐馆"
+      },
+      {
+        "pagePath": "pages/classify/classify",
+        "iconPath": "static/tab-bar/icon1.png",
+        "selectedIconPath": "static/tab-bar/icon.png",
+        "text": "分类"
+      },
+      {
+        "pagePath": "pages/search/search",
+        "iconPath": "static/tab-bar/sousuo1.png",
+        "selectedIconPath": "static/tab-bar/sousuo.png",
+        "text": "搜索"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "static/tab-bar/geren1.png",
+        "selectedIconPath": "static/tab-bar/geren.png",
+        "text": "个人"
+      }
+    ]
+  },
+  "nvueCompiler": "uni-app",
+  "renderer": "auto",
+  "splashscreen": {
+    "alwaysShowBeforeRender": false,
+    "autoclose": true
+  },
+  "appname": "哟呵呵音乐",
+  "compilerVersion": "2.4.6",
+  "usingComponents": {}
+}

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "歌手详情",
+  "navigationBarBackgroundColor": "#b4282d",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control"
+  }
+}
