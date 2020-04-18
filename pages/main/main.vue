@@ -14,24 +14,14 @@
             </view>
         </view>
 		<view class="hot-singer">
-			<!-- <view class="title"><text class="text-left">歌手列表</text><text class="text-right">查看更多</text> </view> -->
 			<view class="singer-list">
-				<view class="item" v-for="(item,index) in banners" :key="index" @click="singerSongList(item.id)">
-					<image class="singer-img" :src="item.imageUrl"></image>
-					<text class="singer-name">{{item.name}}</text>
+				<view class="item" v-for="(item,index) in dataList" :key="index" @click="singerSongList(item.id)">
+					<image  v-if="item.url" class="singer-img"  :src="disposeImg(item.url)"></image>
+					<image v-else class="singer-img" src="../../static/timg1.jpg"></image>
+					<text class="singer-name">{{item.detail}}</text>
 				</view>
 			</view>
 		</view>
-<!-- 		<view class="recommend">
-			<view class="title"><text class="text-left">每日推荐</text><text class="text-right">查看更多</text></view>
-			<view class="recommend-list">
-				<view class="recommend-item" v-for="(item,index) in recommendList" :key="index" @click="recommendSongList(item.id)">
-					<image class="recommend-img" :src="item.picUrl"></image>
-					<image class="headset-img" src="../../static/tab-bar/erji.png"></image>
-					<text class="recommend-name">{{item.name}}</text>
-				</view>
-			</view>
-		</view> -->
     </view>
 </template>
 
@@ -56,7 +46,13 @@
 					{imageUrl:'../../static/fy3.png',name:'苗族分布在我国西南数省区。按方言划分'},
 					{imageUrl:'../../static/fy4.png',name:'苗族分布在我国西南数省区。按方言划分'},
 				],
-				singerList:[],
+				dataList:[
+					{imageUrl:'../../static/fl1.png',title:'苗族分布在我国西南数省区。按方言划分苗族分布在我国西南数省区。按方言划分'},
+					{imageUrl:'../../static/fl2.png',title:'苗族分布在我国西南数省区。按方言划分'},
+					{imageUrl:'../../static/fl3.png',title:'苗族分布在我国西南数省区。按方言划分'},
+					{imageUrl:'../../static/fl4.png',title:'苗族分布在我国西南数省区。按方言划分'},
+					{imageUrl:'../../static/fl5.png',title:'苗族分布在我国西南数省区。按方言划分'},
+				],
 				recommendList:[],
 				playDataImg:'',
 				songName:'',
@@ -66,10 +62,7 @@
 		},
 		created() {
 			const id = uni.getStorageSync('play_id');
-			this.getBanner();
 			this.getSingerList();
-			this.getRecommendList();
-			// this.getPlayData(id);
 		},
 		onLoad () {
 			var _this = this;
@@ -78,42 +71,23 @@
 			})
 		},
 		methods: {
-			getBanner () {
-				uni.request({
-				    url: this.$api + '/banner', 
-				    header: {
-				        'content-type': 'application/json'
-				    },
-				    success: (res) => {
-				        console.log(res.data.banners);
-						this.banners = res.data.banners;
-				    }
-				});
+			disposeImg (img) {
+				var arr = img.split(",");
+				return '/api'+ arr[0];
 			},
 			getSingerList () {
 				uni.request({
-				    url: this.$api + '/top/artists?offset=0&limit=8',
+				    url: 'api/app/heritage/heritage',
 				    header: {
 				        'content-type': 'application/json'
 				    },
 				    success: (res) => {
-						this.singerList = res.data.artists;
-				    }
-				});
-			},
-			getRecommendList () {
-				uni.request({
-				    url: this.$api + '/personalized?limit=6',
-				    header: {
-				        'content-type': 'application/json'
-				    },
-				    success: (res) => {
-						this.recommendList = res.data.result;
+						console.log(res.data.data)
+						this.dataList = res.data.data;
 				    }
 				});
 			},
 			singerSongList (id) {
-				console.log(id);
 				uni.navigateTo({
 					url: '/pages/singerSong/singerSong?id=' + id
 				})				
@@ -121,55 +95,6 @@
 			recommendSongList(id) {
 				console.log(id);
 			},
-
-			getPlayData(id) {
-				uni.request({
-				    url: this.$api + '/song/detail?ids=' + id,
-				    header: {
-				        'content-type': 'application/json'
-				    },
-				    success: (res) => {
-						var _this = this;
-						bgAudioMannager.title = res.data.songs[0].name;
-						this.songName = res.data.songs[0].name;
-						bgAudioMannager.singer = res.data.songs[0].ar[0].name;
-						this.singer = res.data.songs[0].ar[0].name;
-						bgAudioMannager.coverImgUrl = res.data.songs[0].al.picUrl;
-						this.playDataImg = res.data.songs[0].al.picUrl;
-						bgAudioMannager.src = 'https://music.163.com/song/media/outer/url?id='+ id +'.mp3';
-						bgAudioMannager.onPlay (() => {
-							_this.isPlay = true;
-						})						
-				    }
-				});
-			},
-			clickPlay () {
-				if (this.isPlay) {
-					bgAudioMannager.pause();
-					this.isPlay = false;
-				} else {
-					bgAudioMannager.play();
-					this.isPlay = true;
-				}
-			},
-			selectGrid (e) {
-				if (e.detail.index == 0) {
-					console.log(1);
-					// uni.navigateTo({
-					// 	url: '/pages/music/hotSinger/index'
-					// })
-				} else if (e.detail.index == 1) {
-					console.log(2);
-					// uni.navigateTo({
-					// 	url: '/pages/recommendMv/index'
-					// })
-				} else if (e.detail.index == 2) {
-					console.log(3);
-					// uni.navigateTo({
-					// 	url: '/pages/songMenu/index'
-					// })
-				}
-			}
 		},
 	}
 </script>
@@ -200,14 +125,14 @@
 		width: 138px;
 		height: 138px;
 	}
-	.singer-list,.recommend-list {
+	.singer-list {
 		display: flex;
-		justify-content:center;
+		/* justify-content:center; */
 		flex-wrap:wrap;
 	}
 	.item {
 		width: 46vw;
-		height: 260px;
+		height: 240px;
 		margin: 5px;
 		text-align: center;
 	}
@@ -232,12 +157,12 @@
 	}
 	.singer-name {
 		width: 45vw;
-		height: 50px;
+		height: 30px;
 		font-size: 12px;
 		text-align: left;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 3;
+		-webkit-line-clamp: 2;
 		overflow: hidden;
 	}
 	.recommend-img {

@@ -8,6 +8,10 @@
 </template> -->
 <script>
 	export default {
+		globalData: {  
+			token: '',
+			nickName:''
+		}, 
 		onLaunch: function() {
 			console.log('App Launch')
 		},

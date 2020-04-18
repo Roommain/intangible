@@ -104,5 +104,24 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true
+    },
+    "h5" : {
+        // "router" : {
+        //     "base" : "http://139.199.179.144:8080"
+        // },
+        "devServer": {
+            "port": 8080,
+            "disableHostCheck": true,
+            "proxy": {
+                "/api": {
+                    // "target": "http://139.199.179.144:8080",
+					"target": "http://172.17.3.218:8080",
+                    "changeOrigin": true,
+					"pathRewrite": {  
+						"^/api": "/"  
+					}  
+                }
+            }
+        }
     }
 }

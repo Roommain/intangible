@@ -1,11 +1,14 @@
 <template>
 	<view>
 		<view class="login">
-			<view class="head" @click="login">
+			<view class="head" v-show="!nickNameShow" @click="login">
 				<image class="head-img" src="../../static/head.jpeg"></image>
-				<span class="login-btn">登录/注册</span>
+				<span  class="login-btn">登录/注册</span>
 			</view>
-
+			<view class="head" v-show="nickNameShow" @click="nickNameInfo">
+				<image class="head-img" src="../../static/head.jpeg"></image>
+				<span  class="login-btn">{{nickName}}</span>
+			</view>
 		</view>
 		<view class="collect">
 			收藏
@@ -20,13 +23,29 @@
 	export default {
 		data() {
 			return {
-				
+				nickName:'',
+				nickNameShow:false,
+			}
+		},
+		onShow() {
+			var _this = this;
+			if (getApp().globalData.token == '') {
+				_this.nickName = "";
+				_this.nickNameShow = false;	
+			} else {
+				_this.nickName = getApp().globalData.nickName;
+				_this.nickNameShow = true;	
 			}
 		},
 		methods: {
 			login() {
 				uni.navigateTo({
 				    url: '../login/login'
+				});
+			},
+			nickNameInfo () {
+				uni.navigateTo({
+				    url: '../userInfo/userInfo'
 				});
 			}
 		}

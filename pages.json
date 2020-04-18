@@ -70,6 +70,14 @@
 				"navigationBarTextStyle": "white"
 			}
         }
+        ,{
+            "path" : "pages/userInfo/userInfo",
+            "style" : {
+            	"navigationBarTitleText": "个人信息",
+            	"navigationBarBackgroundColor":"#b4282d",
+            	"navigationBarTextStyle": "white"
+            }
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -1,28 +1,19 @@
 <template>
 	<view class="singer">
 		<view>
-			<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" style-type="text" active-color="#dd524d"></uni-segmented-control>
+			<uni-segmented-control :current="current" :values="typeList" @clickItem="onClickItem" style-type="text" active-color="#dd524d"></uni-segmented-control>
 			<view class="content">
-				<view v-show="current === 0">
-					<view class="singer-song" :class="{'active': (item.id == id)}" v-for="(item,index) in singerData.hotSongs" :key="index" @click="play(item.id)">
-						<view class="singer-index">{{index+1}}</view>
-						<view class="singer-left">
-							<image class="singer-pic" :src="item.al.picUrl"></image>
-						</view>
-						<view class="singer-message">
-							<view class="song-name">{{item.name}}</view>
-							<view class="song-singer" :class="{'active': (item.id == id)}">{{item.ar[0].name}}-{{item.name}}</view>
+				<view v-show="current === index" v-for="(item,index) in typeList" :key="index">
+					<view class="singer-list">
+						<view class="item" v-for="(item,index) in dataList" :key="index" @click="singerSongList(item.id)">
+							<image  v-if="item.url" class="singer-img"  :src="disposeImg(item.url)"></image>
+							<image v-else class="singer-img" src="../../static/timg1.jpg"></image>
+							<text class="singer-name">{{item.detail}}</text>
 						</view>
 					</view>
 				</view>
-				<view v-show="current === 1">
-					暂不实现
-				</view>
-				<view v-show="current === 2">
-					暂不实现
-				</view>
-				<view v-show="current === 3">
-					暂不实现
+				<view class="no-data" v-show="noDataShow">
+					<image class="collect-img" src="../../static/timg.jpg"></image>
 				</view>
 			</view>
 		</view>
@@ -37,8 +28,16 @@
 			return {
 				singerData:{},
 				artist:{},
-				singerSongList:[],
-				items: ['民间文学','传统舞蹈','传统技艺','民俗'],
+				typeLists:[],
+				noDataShow:false,
+				dataList:[
+					{imageUrl:'../../static/fl1.png',title:'苗族分布在我国西南数省区。按方言划分苗族分布在我国西南数省区。按方言划分'},
+					{imageUrl:'../../static/fl2.png',title:'苗族分布在我国西南数省区。按方言划分'},
+					{imageUrl:'../../static/fl3.png',title:'苗族分布在我国西南数省区。按方言划分'},
+					{imageUrl:'../../static/fl4.png',title:'苗族分布在我国西南数省区。按方言划分'},
+					{imageUrl:'../../static/fl5.png',title:'苗族分布在我国西南数省区。按方言划分'},
+				],
+				typeList: [],
 				current: 0,
 				imgurl:'',
 				isPlay:false,
@@ -46,28 +45,59 @@
 			};
 		},
 		created() {
-			this.id = uni.getStorageSync('play_id');
+			this.getTypeList();
 		},
 		onLoad (val) {
-			console.log(val.id);
-			this.getSingerSongList(val.id);
 		},
 		methods:{
-			getSingerSongList(id) {
+			disposeImg (img) {
+				var arr = img.split(",");
+				return '/api'+ arr[0];
+			},
+			getTypeList () {
+				this.typeList = [];
 				uni.request({
-				    url: this.$api + '/artists?id=' + id,
+				    url: 'api/app/heritage/heritageType',
 				    header: {
 				        'content-type': 'application/json'
 				    },
 				    success: (res) => {
-						this.singerData = res.data;
-						this.imgurl = res.data.artist.picUrl;
+						this.typeLists = res.data.data;
+						res.data.data.forEach((key) => {
+							this.typeList.push(key.typeName)
+						})
+						this.getDataList(0);
+				    }
+				});
+			},
+			getDataList(id) {
+				var _this = this;
+				var obj = this.typeLists.find(function (x) {
+				    return x.typeName == _this.typeList[id]
+				})
+				uni.request({
+				    url: 'api/app/heritage/heritage',
+					data:{
+						type:obj.id
+					},
+				    header: {
+				        'content-type': 'application/json'
+				    },
+				    success: (res) => {
+						console.log(res.data.data)
+						this.dataList = res.data.data;
+						if (this.dataList.length == 0) {
+							this.noDataShow = true;
+						} else {
+							this.noDataShow = false;
+						}
 				    }
 				});
 			},
 			onClickItem(e) {
 				if (this.current !== e.currentIndex) {
 					this.current = e.currentIndex;
+					this.getDataList(e.currentIndex);
 				}
 			},
 			play(id,e) {
@@ -75,7 +105,7 @@
 				uni.$emit('update',{id:id});
 				this.id = uni.getStorageSync('play_id');
 			}
-		}
+		},
 	}
 </script>
 
@@ -117,5 +147,34 @@
 }
 .active {
 	color: #007AFF;
+}
+.singer-list {
+	display: flex;
+	/* justify-content:center; */
+	flex-wrap:wrap;
+}
+.item {
+	width: 46vw;
+	height: 240px;
+	margin: 5px;
+	text-align: center;
+}
+.singer-img {
+	width: 45vw;
+	height: 200px;
+	border-radius: 5px;
+}
+.singer-name {
+	width: 45vw;
+	height: 30px;
+	font-size: 12px;
+	text-align: left;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+}
+.no-data {
+	text-align: center;
 }
 </style>
